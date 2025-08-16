@@ -92,19 +92,9 @@ Per Google Sheets:
 - **Tool SMPO originale**: http://smpo.github.io/dencoder/
 - **Fogli di calcolo**: Excel, LibreOffice Calc, Google Sheets
 
-## 📈 Bilanciamento Sperimentale
 
-Per un disegno bilanciato, assegna le condizioni in modo equilibrato:
-
-```
-Partecipanti 1-3-5-7-9...  → Condizione 1 (OSTRACISMO)
-Partecipanti 2-4-6-8-10... → Condizione 2 (INCLUSIONE)  
-Partecipanti 11-13-15...   → Condizione 3 (SOVRAINCLUSIONE)
-Partecipanti 12-14-16...   → Ripeti schema
-```
-
-La formula genererà automaticamente l'URL corretto per ogni partecipante con il proprio ID e condizione assegnata.
 
 ---
 
 *2025 - emiliano.pes@uniroma1.it
+
