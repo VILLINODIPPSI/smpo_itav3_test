@@ -1,4 +1,4 @@
-#LEGGIMI - Assegnazione Condizioni Partecipanti SMPO ITA" 🇮🇹
+#LEGGIMI - RISULTATI QUALTRICS  SMPO ITA V3" 🇮🇹
 
 Nel subfolder ESEMPIO_Risultati_Qualtrics/ sono disponibili due file esempio di risultati esportati da Qualtrics:
 
@@ -30,7 +30,15 @@ Risultati_Qualtrics_esempio.xlsx
 | **d** | Descrizione scritta dal partecipante |
 | **av** | ID avatar utilizzato (0, 1, 2...) |
 
----
+### 👍 Dati Like Dati dal Partecipante
+
+| **Colonna** | **Interpretazione** | **Esempio** |
+|-------------|-------------------|-------------|
+| **total_likes** | Numero totale like dati (attualmente attivi) | `8` |
+| **liked_usernames** | Lista nomi utenti che hanno ricevuto like | `Sarah,John,George,AncaD` |
+| **liked_avatars** | Lista avatar che hanno ricevuto like | `other_sarah,other_john,other_george,other_anca` |
+| **like_times** | Timestamp precisi dei like (millisecondi dall'inizio task) | `15000,32000,45000,67000` |
+
 
 ## 📝 Scale di Misurazione
 
