@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Profile Generator - Addendum</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+            text-align: center;
+            font-size: 2em;
+        }
+        .header-controls {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        label {
+            font-weight: 600;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        button.secondary {
+            background: #48bb78;
+        }
+        button.secondary:hover {
+            background: #38a169;
+        }
+        button.tertiary {
+            background: #2196F3;
+        }
+        button.tertiary:hover {
+            background: #0b7dda;
+        }
+        button.danger {
+            background: #f56565;
+        }
+        button.danger:hover {
+            background: #e53e3e;
+        }
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .profile-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+        .profile-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .profile-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .avatar-preview {
+            width: 100%;
+            height: 180px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            background: white;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+        .avatar-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .avatar-preview:hover {
+            border-color: #667eea;
+        }
+        .upload-text {
+            color: #a0aec0;
+            text-align: center;
+            padding: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        .likes-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .like-input {
+            width: 100px;
+        }
+        .add-like-btn {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        .like-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .remove-like {
+            background: #f56565;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .preview-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .preview-section h3 {
+            margin-top: 0;
+        }
+        .json-preview {
+            background: #2d3748;
+            color: #68d391;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .info-box {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .info-box strong {
+            color: #2c5282;
+        }
+        code {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Avatar Profile Generator - Addendum</h1>
+        
+        <div class="info-box">
+            <strong>📝 Istruzioni:</strong> 
+            <ol style="margin: 10px 0; padding-left: 20px;">
+                <li>Carica il file <strong>profiles_v3_addendum.json</strong></li>
+                <li>Modifica i profili come desideri</li>
+                <li>Clicca su "✅ Genera profiles_v3_addendum.json" per ottenere il file aggiornato</li>
+            </ol>
+            <strong>💡 Supporto formato:</strong> L'applicazione legge e genera file nel formato:<br>
+            <code>window.others = { "posts" : [...] };</code><br>
+            Con commenti <code>//</code> e tutto il resto ESATTAMENTE come l'originale.
+        </div>
+
+        <div class="header-controls">
+            <div class="control-group">
+                <label for="numAvatars">Numero di Avatar:</label>
+                <input type="number" id="numAvatars" value="11" min="1" max="50" />
+                <button onclick="updateAvatarCount()">Aggiorna</button>
+            </div>
+            <button class="secondary" onclick="loadFromJSON()">📂 Carica profiles_v3_addendum.json</button>
+            <button class="secondary" onclick="autoFillLikes()">⚡ Auto-compila Likes</button>
+            <input type="file" id="jsonFileInput" accept=".json" onchange="handleJSONUpload(event)" />
+        </div>
+
+        <div id="profilesContainer" class="profiles-grid"></div>
+
+        <div class="action-buttons">
+            <button class="secondary" onclick="generateJavaScript()">✅ Genera profiles_v3_addendum.json</button>
+            <button class="tertiary" onclick="generateJSON()">📄 Esporta JSON Array (per test)</button>
+            <button class="tertiary" onclick="togglePreview()">👁️ Anteprima</button>
+            <button class="danger" onclick="clearAll()">🗑️ Cancella Tutto</button>
+        </div>
+
+        <div id="previewSection" class="preview-section" style="display: none;">
+            <h3>📋 Anteprima JSON</h3>
+            <div id="jsonPreview" class="json-preview"></div>
+        </div>
+    </div>
+
+    <script>
+        let profiles = [];
+        let numAvatars = 11;
+
+        // Inizializza con 11 profili vuoti
+        function initProfiles() {
+            numAvatars = parseInt(document.getElementById('numAvatars').value) || 1;
+            profiles = Array(numAvatars).fill(null).map((_, i) => ({
+                username: '',
+                avatar: `avatars/others/${String(i + 1).padStart(2, '0')}.png`,
+                avatarFile: null,
+                text: '',
+                likes: [45000, 50000, 110000, 150000]
+            }));
+            renderProfiles();
+        }
+
+        function updateAvatarCount() {
+            const newCount = parseInt(document.getElementById('numAvatars').value) || 1;
+            if (newCount > numAvatars) {
+                // Aggiungi profili
+                for (let i = numAvatars; i < newCount; i++) {
+                    profiles.push({
+                        username: '',
+                        avatar: `avatars/others/${String(i + 1).padStart(2, '0')}.png`,
+                        avatarFile: null,
+                        text: '',
+                        likes: [45000, 50000, 110000, 150000]
+                    });
+                }
+            } else if (newCount < numAvatars) {
+                // Rimuovi profili
+                profiles = profiles.slice(0, newCount);
+            }
+            numAvatars = newCount;
+            renderProfiles();
+        }
+
+        function renderProfiles() {
+            const container = document.getElementById('profilesContainer');
+            container.innerHTML = profiles.map((profile, index) => `
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <span class="profile-number">Avatar ${String(index + 1).padStart(2, '0')}</span>
+                    </div>
+                    
+                    <div class="avatar-preview" onclick="document.getElementById('avatarFile${index}').click()">
+                        ${profile.avatarFile 
+                            ? `<img src="${URL.createObjectURL(profile.avatarFile)}" alt="Avatar ${index + 1}">` 
+                            : `<div class="upload-text">📁 Clicca per caricare<br>l'immagine avatar</div>`
+                        }
+                        <input type="file" id="avatarFile${index}" accept="image/*" onchange="handleAvatarUpload(${index}, event)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Path Avatar (relativo):</label>
+                        <input type="text" value="${profile.avatar}" onchange="updateProfile(${index}, 'avatar', this.value)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nome Utente:</label>
+                        <input type="text" value="${profile.username}" placeholder="es. George" onchange="updateProfile(${index}, 'username', this.value)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descrizione:</label>
+                        <textarea placeholder="Descrizione personale dell'avatar..." onchange="updateProfile(${index}, 'text', this.value)">${profile.text}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Likes (timestamp in millisecondi):</label>
+                        <div class="likes-container" id="likesContainer${index}">
+                            ${profile.likes.map((like, likeIndex) => `
+                                <div class="like-item">
+                                    <input type="number" class="like-input" value="${like}" 
+                                        onchange="updateLike(${index}, ${likeIndex}, this.value)" />
+                                    <button class="remove-like" onclick="removeLike(${index}, ${likeIndex})">✕</button>
+                                </div>
+                            `).join('')}
+                            <button class="add-like-btn" onclick="addLike(${index})">+ Aggiungi Like</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleAvatarUpload(index, event) {
+            const file = event.target.files[0];
+            if (file) {
+                profiles[index].avatarFile = file;
+                // Aggiorna il path dell'avatar
+                profiles[index].avatar = `avatars/others/${String(index + 1).padStart(2, '0')}.png`;
+                renderProfiles();
+            }
+        }
+
+        function updateProfile(index, field, value) {
+            profiles[index][field] = value;
+        }
+
+        function updateLike(profileIndex, likeIndex, value) {
+            profiles[profileIndex].likes[likeIndex] = parseInt(value) || 0;
+        }
+
+        function addLike(index) {
+            profiles[index].likes.push(0);
+            renderProfiles();
+        }
+
+        function removeLike(profileIndex, likeIndex) {
+            profiles[profileIndex].likes.splice(likeIndex, 1);
+            renderProfiles();
+        }
+
+        function autoFillLikes() {
+            profiles.forEach((profile, index) => {
+                const baseTime = 45000;
+                const variation = index * 1000;
+                profile.likes = [
+                    baseTime + variation,
+                    baseTime + 5000 + variation,
+                    baseTime + 65000 + variation,
+                    baseTime + 105000 + variation
+                ];
+            });
+            renderProfiles();
+            alert('Likes auto-compilati per tutti i profili!');
+        }
+
+        function generateJSON() {
+            // Prepara i dati per il JSON
+            const jsonData = profiles.map(profile => ({
+                username: profile.username,
+                avatar: profile.avatar,
+                text: profile.text,
+                likes: profile.likes
+            }));
+
+            // Crea e scarica il file JSON
+            const jsonString = JSON.stringify(jsonData, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'profiles.json';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            // Mostra anteprima
+            document.getElementById('jsonPreview').textContent = jsonString;
+            document.getElementById('previewSection').style.display = 'block';
+
+            alert('✅ File profiles.json generato e scaricato!');
+        }
+
+        function generateJavaScript() {
+            // Genera ESATTAMENTE il formato del file originale
+            let output = `// **Profili dei membri del gruppo**   
+// Ogni profilo consiste di (1) avatar, (2) nome utente, (3) descrizione personale, (4) numero di "mi piace" che il profilo riceverà durante l'interazione
+\t
+window.others = {
+  "posts" : [\n`;
+
+            profiles.forEach((profile, index) => {
+                const indent = '      ';
+                output += `${indent}{\n`;
+                output += `${indent}  "avatar": "${profile.avatar}",\n`;
+                output += `${indent}  "username": "${profile.username}",\n`;
+                output += `${indent}  "text": "${profile.text}",\n`;
+                
+                // Formatta i likes su una riga con il commento
+                const likesStr = profile.likes.join(', ');
+                output += `${indent}  "likes": [${likesStr}] //${profile.likes.length}\n`;
+                
+                output += `${indent}}`;
+                if (index < profiles.length - 1) {
+                    output += ',';
+                }
+                output += '\n';
+            });
+
+            output += `\n    ]
+  };`;
+
+            // Scarica il file
+            const blob = new Blob([output], { type: 'text/javascript; charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'profiles_v3_addendum.json';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            // Mostra anteprima
+            document.getElementById('jsonPreview').textContent = output;
+            document.getElementById('previewSection').style.display = 'block';
+
+            alert('✅ File profiles_v3_addendum.json generato!\n\nIl file mantiene ESATTAMENTE il formato originale con commenti e window.others');
+        }
+
+        function togglePreview() {
+            const preview = document.getElementById('previewSection');
+            if (preview.style.display === 'none') {
+                const jsonData = profiles.map(profile => ({
+                    username: profile.username,
+                    avatar: profile.avatar,
+                    text: profile.text,
+                    likes: profile.likes
+                }));
+                document.getElementById('jsonPreview').textContent = JSON.stringify(jsonData, null, 2);
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function loadFromJSON() {
+            document.getElementById('jsonFileInput').click();
+        }
+
+        function handleJSONUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        let content = e.target.result;
+                        console.log('File caricato, lunghezza:', content.length);
+                        
+                        // Questo è il formato JavaScript con window.others
+                        // Dobbiamo estrarre l'array posts
+                        
+                        // Step 1: Trova l'inizio dell'array posts
+                        const postsIndex = content.indexOf('"posts"');
+                        if (postsIndex === -1) {
+                            throw new Error('Non trovo "posts" nel file');
+                        }
+                        
+                        // Step 2: Trova la parentesi quadra aperta dopo "posts"
+                        const arrayStartIndex = content.indexOf('[', postsIndex);
+                        if (arrayStartIndex === -1) {
+                            throw new Error('Non trovo l\'inizio dell\'array');
+                        }
+                        
+                        // Step 3: Trova la chiusura dell'array contando le parentesi
+                        let bracketCount = 0;
+                        let arrayEndIndex = arrayStartIndex;
+                        
+                        for (let i = arrayStartIndex; i < content.length; i++) {
+                            if (content[i] === '[') {
+                                bracketCount++;
+                            } else if (content[i] === ']') {
+                                bracketCount--;
+                                if (bracketCount === 0) {
+                                    arrayEndIndex = i + 1;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        // Step 4: Estrai la parte dell'array
+                        let arrayContent = content.substring(arrayStartIndex, arrayEndIndex);
+                        console.log('Array estratto, lunghezza:', arrayContent.length);
+                        
+                        // Step 5: Rimuovi i commenti // dalla fine di ogni linea
+                        arrayContent = arrayContent.split('\n').map(line => {
+                            const commentIndex = line.indexOf('//');
+                            if (commentIndex !== -1) {
+                                return line.substring(0, commentIndex);
+                            }
+                            return line;
+                        }).join('\n');
+                        
+                        // Step 6: Rimuovi virgole trailing prima di } o ]
+                        arrayContent = arrayContent.replace(/,(\s*[}\]])/g, '$1');
+                        
+                        console.log('Array pulito per parsing');
+                        
+                        // Step 7: Parse del JSON
+                        const data = JSON.parse(arrayContent);
+                        console.log('Parsing riuscito! Profili trovati:', data.length);
+                        
+                        if (data && Array.isArray(data)) {
+                            profiles = data.map(profile => ({
+                                username: profile.username || '',
+                                avatar: profile.avatar || '',
+                                text: profile.text || '',
+                                likes: profile.likes || [],
+                                avatarFile: null
+                            }));
+                            numAvatars = profiles.length;
+                            document.getElementById('numAvatars').value = numAvatars;
+                            renderProfiles();
+                            alert('✅ File caricato con successo!\n\nProfili: ' + numAvatars + '\n\n' + 
+                                  profiles.map((p, i) => `${i+1}. ${p.username} (${p.likes.length} likes)`).join('\n'));
+                        } else {
+                            throw new Error('Il file non contiene un array di profili valido');
+                        }
+                    } catch (error) {
+                        console.error('Errore dettagliato:', error);
+                        console.error('Stack:', error.stack);
+                        alert('❌ Errore nel caricamento:\n\n' + error.message + 
+                              '\n\nApri la Console (F12) per vedere i dettagli completi.');
+                    }
+                };
+                reader.readAsText(file, 'UTF-8');
+            }
+        }
+
+        function clearAll() {
+            if (confirm('Sei sicuro di voler cancellare tutti i dati?')) {
+                initProfiles();
+                alert('🗑️ Tutti i dati sono stati cancellati!');
+            }
+        }
+
+        // Inizializza l'applicazione
+        initProfiles();
+    </script>
+</body>
+</html>

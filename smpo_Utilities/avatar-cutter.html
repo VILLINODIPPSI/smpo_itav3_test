@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Cutter - Ritaglio Interattivo</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .canvas-container {
+            position: relative;
+            display: inline-block;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+        }
+        canvas {
+            display: block;
+            cursor: crosshair;
+        }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        button.secondary {
+            background: #2196F3;
+        }
+        button.secondary:hover {
+            background: #0b7dda;
+        }
+        button.danger {
+            background: #f44336;
+        }
+        button.danger:hover {
+            background: #da190b;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .grid-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .avatar-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .avatar-item {
+            border: 2px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            background: #fafafa;
+        }
+        .avatar-item.selected {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        .avatar-item canvas {
+            max-width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+        .coords {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        function AvatarCutter() {
+            const [image, setImage] = useState(null);
+            const [rows, setRows] = useState(3);
+            const [cols, setCols] = useState(4);
+            const [boxes, setBoxes] = useState([]);
+            const [selectedBox, setSelectedBox] = useState(null);
+            const [dragging, setDragging] = useState(null);
+            const canvasRef = useRef(null);
+            const scale = 0.8; // Scala per visualizzazione
+
+            const loadImage = (file) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        setImage(img);
+                        initializeGrid(img.width, img.height);
+                    };
+                };
+                reader.readAsDataURL(file);
+            };
+
+            useEffect(() => {
+                // Carica l'immagine di default
+                const img = new Image();
+                img.src = 'avatars-source.jpg';
+                img.onload = () => {
+                    setImage(img);
+                    initializeGrid(img.width, img.height);
+                };
+                img.onerror = () => {
+                    console.log('Carica un\'immagine usando il pulsante "Scegli file"');
+                };
+            }, []);
+
+            useEffect(() => {
+                if (image) {
+                    drawCanvas();
+                }
+            }, [image, boxes, selectedBox]);
+
+            const initializeGrid = (width, height) => {
+                // Trova i margini dell'area con contenuto (escludendo header e footer)
+                const topMargin = 140;
+                const bottomMargin = 1060;
+                const leftMargin = 70;
+                const rightMargin = width - 70;
+                
+                const usableHeight = bottomMargin - topMargin;
+                const usableWidth = rightMargin - leftMargin;
+                
+                const boxHeight = usableHeight / rows;
+                const boxWidth = usableWidth / cols;
+                
+                const newBoxes = [];
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        newBoxes.push({
+                            id: row * cols + col,
+                            x: leftMargin + col * boxWidth,
+                            y: topMargin + row * boxHeight,
+                            width: boxWidth,
+                            height: boxHeight
+                        });
+                    }
+                }
+                setBoxes(newBoxes);
+            };
+
+            const drawCanvas = () => {
+                const canvas = canvasRef.current;
+                if (!canvas || !image) return;
+
+                const ctx = canvas.getContext('2d');
+                canvas.width = image.width * scale;
+                canvas.height = image.height * scale;
+
+                // Disegna l'immagine
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                // Disegna i box
+                boxes.forEach((box, index) => {
+                    const isSelected = selectedBox === index;
+                    ctx.strokeStyle = isSelected ? '#4CAF50' : '#FF9800';
+                    ctx.lineWidth = isSelected ? 3 : 2;
+                    ctx.strokeRect(
+                        box.x * scale,
+                        box.y * scale,
+                        box.width * scale,
+                        box.height * scale
+                    );
+
+                    // Disegna i punti di controllo
+                    if (isSelected) {
+                        const handles = getHandles(box);
+                        handles.forEach(handle => {
+                            ctx.fillStyle = '#4CAF50';
+                            ctx.fillRect(
+                                handle.x * scale - 4,
+                                handle.y * scale - 4,
+                                8,
+                                8
+                            );
+                        });
+                    }
+
+                    // Numero dell'avatar
+                    ctx.fillStyle = isSelected ? '#4CAF50' : '#FF9800';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.fillText(
+                        String(index + 1).padStart(2, '0'),
+                        box.x * scale + 5,
+                        box.y * scale + 20
+                    );
+                });
+            };
+
+            const getHandles = (box) => {
+                return [
+                    { x: box.x, y: box.y, type: 'tl' },
+                    { x: box.x + box.width, y: box.y, type: 'tr' },
+                    { x: box.x, y: box.y + box.height, type: 'bl' },
+                    { x: box.x + box.width, y: box.y + box.height, type: 'br' },
+                    { x: box.x + box.width / 2, y: box.y, type: 't' },
+                    { x: box.x + box.width / 2, y: box.y + box.height, type: 'b' },
+                    { x: box.x, y: box.y + box.height / 2, type: 'l' },
+                    { x: box.x + box.width, y: box.y + box.height / 2, type: 'r' },
+                ];
+            };
+
+            const handleMouseDown = (e) => {
+                if (!image) return;
+                const rect = canvasRef.current.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / scale;
+                const y = (e.clientY - rect.top) / scale;
+
+                // Controlla se clicca su un handle
+                if (selectedBox !== null) {
+                    const box = boxes[selectedBox];
+                    const handles = getHandles(box);
+                    for (let handle of handles) {
+                        if (Math.abs(handle.x - x) < 10 && Math.abs(handle.y - y) < 10) {
+                            setDragging({ type: 'handle', handleType: handle.type });
+                            return;
+                        }
+                    }
+                }
+
+                // Controlla se clicca dentro un box
+                for (let i = 0; i < boxes.length; i++) {
+                    const box = boxes[i];
+                    if (x >= box.x && x <= box.x + box.width &&
+                        y >= box.y && y <= box.y + box.height) {
+                        setSelectedBox(i);
+                        setDragging({ type: 'move', startX: x, startY: y });
+                        return;
+                    }
+                }
+
+                setSelectedBox(null);
+            };
+
+            const handleMouseMove = (e) => {
+                if (!dragging || selectedBox === null) return;
+
+                const rect = canvasRef.current.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / scale;
+                const y = (e.clientY - rect.top) / scale;
+
+                const newBoxes = [...boxes];
+                const box = { ...newBoxes[selectedBox] };
+
+                if (dragging.type === 'handle') {
+                    const handle = dragging.handleType;
+                    
+                    if (handle.includes('t')) box.y = y, box.height += newBoxes[selectedBox].y - y;
+                    if (handle.includes('b')) box.height = y - box.y;
+                    if (handle.includes('l')) box.x = x, box.width += newBoxes[selectedBox].x - x;
+                    if (handle.includes('r')) box.width = x - box.x;
+                    
+                } else if (dragging.type === 'move') {
+                    const dx = x - dragging.startX;
+                    const dy = y - dragging.startY;
+                    box.x += dx;
+                    box.y += dy;
+                    setDragging({ ...dragging, startX: x, startY: y });
+                }
+
+                newBoxes[selectedBox] = box;
+                setBoxes(newBoxes);
+            };
+
+            const handleMouseUp = () => {
+                setDragging(null);
+            };
+
+            const cropAndDownload = () => {
+                if (!image) return;
+
+                boxes.forEach((box, index) => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(box.width);
+                    canvas.height = Math.round(box.height);
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.drawImage(
+                        image,
+                        Math.round(box.x),
+                        Math.round(box.y),
+                        Math.round(box.width),
+                        Math.round(box.height),
+                        0,
+                        0,
+                        Math.round(box.width),
+                        Math.round(box.height)
+                    );
+
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${String(index + 1).padStart(2, '0')}.png`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    });
+                });
+            };
+
+            const exportCoordinates = () => {
+                const coords = boxes.map((box, i) => ({
+                    id: i + 1,
+                    left: Math.round(box.x),
+                    top: Math.round(box.y),
+                    right: Math.round(box.x + box.width),
+                    bottom: Math.round(box.y + box.height),
+                    width: Math.round(box.width),
+                    height: Math.round(box.height)
+                }));
+
+                const dataStr = JSON.stringify(coords, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'coordinates.json';
+                a.click();
+                URL.revokeObjectURL(url);
+            };
+
+            return (
+                <div className="container">
+                    <h1>🎨 Avatar Cutter - Ritaglio Interattivo</h1>
+                    
+                    <div className="info">
+                        <strong>Istruzioni:</strong>
+                        <ul style={{margin: '10px 0', paddingLeft: '20px'}}>
+                            <li>Clicca su un riquadro per selezionarlo</li>
+                            <li>Trascina gli angoli o i lati per ridimensionare</li>
+                            <li>Trascina il centro per spostare il riquadro</li>
+                            <li>Regola la griglia se necessario e clicca "Reset Griglia"</li>
+                        </ul>
+                    </div>
+
+                    <div className="controls">
+                        <input 
+                            type="file" 
+                            accept="image/*"
+                            onChange={(e) => e.target.files[0] && loadImage(e.target.files[0])}
+                            style={{marginRight: '10px'}}
+                        />
+                        <div className="grid-selector">
+                            <label>Righe:</label>
+                            <input 
+                                type="number" 
+                                value={rows} 
+                                onChange={(e) => setRows(parseInt(e.target.value) || 1)}
+                                min="1"
+                                max="10"
+                            />
+                            <label>Colonne:</label>
+                            <input 
+                                type="number" 
+                                value={cols} 
+                                onChange={(e) => setCols(parseInt(e.target.value) || 1)}
+                                min="1"
+                                max="10"
+                            />
+                            <button 
+                                className="secondary"
+                                onClick={() => image && initializeGrid(image.width, image.height)}
+                            >
+                                Reset Griglia
+                            </button>
+                        </div>
+                        <button onClick={cropAndDownload} disabled={!image}>
+                            📥 Scarica Tutti gli Avatar
+                        </button>
+                        <button className="secondary" onClick={exportCoordinates} disabled={!image}>
+                            📋 Esporta Coordinate
+                        </button>
+                    </div>
+
+                    <div className="canvas-container">
+                        <canvas
+                            ref={canvasRef}
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseUp}
+                        />
+                    </div>
+
+                    {selectedBox !== null && (
+                        <div className="info">
+                            <strong>Avatar selezionato: {String(selectedBox + 1).padStart(2, '0')}</strong>
+                            <br />
+                            Coordinate: x={Math.round(boxes[selectedBox].x)}, 
+                            y={Math.round(boxes[selectedBox].y)}, 
+                            width={Math.round(boxes[selectedBox].width)}, 
+                            height={Math.round(boxes[selectedBox].height)}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<AvatarCutter />, document.getElementById('root'));
+    </script>
+</body>
+</html>
