@@ -4,71 +4,70 @@
 window.others = {
   "posts" : [
       {
-        "avatar": "avatars/others/george.png",
-        "username": "Georgeee",
-        "text": "Sono un ragazzo di 19 anni del Wisconsin (iniziate pure a prendervi gioco del mio accento). Amo la musica e ultimamente non ascolto altro che Joy Division, Echo & the bunnymen, e the smiths. Oltre alla musica mi piace imparare le lingue, la psicologia, disegnare e scrivere.",
-        "likes": [45000, 50000, 110000, 150000] //4
+        "avatar": "avatars/others/01.png",
+        "username": "Chiara",
+        "text": "Ciao, sono una studentessa di Informatica al terzo anno e sono interessata al Natural Language Processing. Sono anche una amante del tè sfuso e un'appassionata di Intelligenza artificiale. Sono curiosa di sapere di cosa si tratta questo compito.",
+        "likes": [45000, 50000, 110000, 150000]
       },
       {
-        "avatar": "avatars/others/sarah.png",
-        "username": "Sarah",
-        "text": "Permettetemi di presentarmi. Sono Sarah, sposata e madre di due meravigliosi figli (ormai cresciuti). La mia carriera è stata un po' particolare. Iniziando come storica laureata, sono passata a una disciplina completamente diversa: consulente per l'orientamento professionale che cerca di aiutare i giovani con disabilità a trovare lavoro. Mi sono appena pensionata e ho iniziato a dedicare più tempo ai miei hobby, come cantare, leggere e giocare a pallavolo.",
-        "likes": [12000, 14000,15000,35000,80000,100000,110000,150000,20000] //9
+        "avatar": "avatars/others/02.png",
+        "username": "George",
+        "text": "Ciao a tutti, sono George un ragazzo di 22 anni inglese. Amo la musica, sono cresciuto con i dischi del mio papà quindi ascolto principalmente pop rock anni 70 come i Queen, Led Zeppelin e i Rolling Stones. Oltre la musica mi piace molto imparare altre lingue, leggere libri di psicologia, disegnare e scrivere. ",
+        "likes": [46000, 51000, 111000, 151000]
       },
       {
-        "avatar": "avatars/others/john.png",
-        "username": "John",
-        "text": "Ciao, ho 57 anni, sposato, con due figli. Sono stato un programmatore negli Stati Uniti per circa 30 anni, ma non preoccupatevi: non ho il taglio di capelli polveroso, la camicia abbottonata oversize e gli occhiali da nerd con montatura grande. Non vedo l'ora di lavorare con tutti voi. Saluti, John",
-		"likes": [20000, 21000] //2
+        "avatar": "avatars/others/03.png",
+        "username": "Elodie",
+        "text": "Mi chiamo Élodie, ho 25 anni e sono di Lione. Ballo danza classica da quando sono bambina la sala prove è la mia seconda casa.  Eppure, appena esco dal teatro, metto le cuffie e mi perdo nell'heavy metal. Amo i riff potenti, la batteria che ti fa vibrare dentro, quella sensazione di forza e libertà totale. So che sembra strano: una ballerina che ascolta i Metallica, però è la mia evasione dalla rigidità della danza.",
+        "likes": [47000, 52000, 112000, 152000]
       },
       {
-        "avatar": "avatars/others/anca.png",
-        "username": "AncaD",
-        "text": "Sono una studentessa di Informatica, interessata al Natural Language Processing. Anche una amante del tè sfuso e un'entusiasta del Web Semantico. Sono curiosa di sapere di cosa si tratta questo compito.",
-        "likes": [10000, 12000, 40000, 80000, 120000] //5
+        "avatar": "avatars/others/04.png",
+        "username": "Andrea",
+        "text": "Sono Andrea, un infermiere di 26 anni. Nel tempo libero mi piace andare a giocare a beach volley con i miei colleghi ai quali sono molto legati.  Mi piace molto il calcio e guardare le partite della mia squadra del cuore con i miei amici. Adoro i super eroi, ho letto tutti i fumetti e visto tutti i film. Il mio preferito è Spiderman, il vostro? ",
+        "likes": [48000, 53000, 113000, 153000]
       },
       {
-        "avatar": "avatars/others/niki.png",
-        "username": "Nick",
-        "text": "La mia vita ruota attorno all'arrampicata. Ho iniziato quando avevo 12 anni (compirò 18 presto) e di solito arrampico 4-5 ore al giorno. L'arrampicata non mi annoia mai, perché ogni volta è diversa: le vie, il tempo, la mia forza e resistenza. È fantastico!",
-        "likes": [40000, 450000, 90000, 100000, 150000, 155000] //6
-      },
-    {
-        "avatar": "avatars/others/mary.png",
-        "username": "Mary",
-        "text": "Il mio nome è Mary e ho 49 anni. Ho un marito e 2 figli cresciuti. La mia famiglia e io abbiamo vissuto in diversi paesi. I nostri figli hanno frequentato scuole internazionali ovunque siamo andati e da quando ci siamo trasferiti in Cina, ho trovato lavoro in quelle scuole. Oltre a girare per il mondo, mi piace giocare. Giochi da tavolo, carte, black jack o poker, mah jong, o giochi stupidi su Facebook, puzzle, praticamente qualsiasi cosa",
-        "likes": [20000, 25000, 95000] //3
+        "avatar": "avatars/others/05.png",
+        "username": "Ines",
+        "text": "Il mio nome è Ines, e sono portoghese. Ho un marito e 2 figli ormai grandi. La mia famiglia e io abbiamo vissuto in diversi paesi. I nostri figli hanno frequentato scuole internazionali ovunque siamo andati e da quando ci siamo trasferiti in Cina, ho trovato lavoro in quelle scuole. Oltre a girare per il mondo, mi piace giocare. Giochi da tavolo, carte, black jack o poker, mah jong, o giochi stupidi su Facebook, puzzle, praticamente qualsiasi cosa. ",
+        "likes": [49000, 54000, 114000, 154000]
       },
       {
-        "avatar": "avatars/others/lauren.png",
-        "username": "Lauren",
-        "text": "Sono Lauren, mi piace uscire con gli amici e andare a fare shopping. Sto solo facendo alcuni studi online qui!",
-        "likes": [12000, 38000] //1
-      },
-          {
-        "avatar": "avatars/others/kim.png",
-        "username": "Ky",
-        "text": "Ehi ragazzi. Ho 19 anni, coreano nativo. Sono in America da circa quattro anni ora. Mi considero abbastanza simpatico, anche se non un angelo totale. Mi piace semplicemente essere amichevole con le persone che incontro. Nel mio tempo libero, mi piace fare tutti i tipi di amici, avere conversazioni su qualsiasi cosa, guardare dipinti, usare il trucco, leggere, cantare (coro rappresentante!), fare gioielli, e mangiare cibo delizioso. Godetevi la giornata, state fuori dai guai. <3",
-        "likes": [10000, 50000, 88000, 11000, 11500, 120000, 15000] //7
+        "avatar": "avatars/others/06.png",
+        "username": "Marco",
+        "text": "Il mio nome è Marco, sono di Roma ma al momento mi trovo in Spagna per un Erasmus di 6 mesi. Mi piace questa esperienza ma mi manca molto anche casa, la mia fidanzata e i miei amici. Per fare nuove amicizie mi sono iscritto ad arrampicata ed è diventata una dipendenza!! Non mi annoia mai, perché ogni volta è diversa: le vie, il tempo, la mia forza e resistenza. È fantastico!",
+        "likes": [50000, 55000, 115000, 155000]
       },
       {
-        "avatar": "avatars/others/arjen.png",
-        "username": "Arjen",
-        "text": "Il mio nome è Arjen, studio Intelligenza Artificiale. Inoltre mi piace usare il mio tempo libero per fare tutti i tipi di cose diverse... Sono anche un po' un nerd, immagino.",
-        "likes": [12000, 40000, 120000] //3
+        "avatar": "avatars/others/07.png",
+        "username": "Laura",
+        "text": "In questo momento sto finendo il primo anno del semestre filtro di medicina e lavoro anche in un banco cosmetici come lavoro part-time. E' molto difficile fare tutto insieme ma ho un sogno e sono ostinata a raggiungerlo: diventare un medico e aiutare le persone a stare meglio. ",
+        "likes": [51000, 56000, 116000, 156000]
       },
       {
-        "avatar": "avatars/others/heather.png",
-        "username": "Heather",
-        "text": "In questo momento sto finendo il mio primo anno di un difficile curriculum scientifico all'università. Lavoro anche in un banco cosmetici come lavoro part-time e guadagno dei soldi online nel mio tempo libero. Ho molto pianificato per il mio futuro, ed è davvero emozionante. Voglio crescere ed essere un dottore con una famiglia di tanti piccoli cani. Sarà fantastico.",
-        "likes": [13000, 50000, 80000, 88000, 120000] //5
+        "avatar": "avatars/others/08.png",
+        "username": "Azzurra",
+        "text": "Ciao mi chiamo Azzurra ho 24 anni e vivo a Roma. Mi sono trasferita per proseguire i miei studi di Psicologia.  Mi piace molto l'arte, cantare e suonare anche in compagnia. Proprio per questo sono entrata a far parte del coro della mia università così da poter condividere questa passione con altri coetanei.",
+        "likes": [52000, 57000, 117000, 157000]
       },
       {
-        "avatar": "avatars/others/jane.png",
-        "username": "Jane",
-        "text": "Cari tutti, il mio nome è Jane e presto avrò un colloquio importante. È tutto quello a cui riesco a pensare in questi giorni. Spero che stiate bene",
-        "likes": [10000, 50000] //6
+        "avatar": "avatars/others/09.png",
+        "username": "Daniele",
+        "text": "Sono Daniele, un architetto di 27 anni. Sto svolgendo un dottorato con la mia università che mi sta facendo conoscere un sacco di persone interessanti. Nel fine settimana però indosso la mia divisa e gioco a basket con la mia squadra: gioco a pallacanestro da così tanti anni che non ricordo la mia vita senza gli allenamenti. ",
+        "likes": [53000, 58000, 118000, 158000]
       },
-
+      {
+        "avatar": "avatars/others/10.png",
+        "username": "Giorgia",
+        "text": "Ehi ragazzi, ho 29 anni, nativa toscana trasferita in America per inseguire il mio sogno di produttrice cinematografica. Sono a Los Angeles da circa quattro anni ora e ho incontrato tutti gli attori di cui ero cotta da adolescente. Nel mio tempo libero, mi piace fare passeggiate, avere conversazioni su qualsiasi cosa, andare al museo, leggere e fare cruciverba. Ma la mia cosa preferita sono i brunch della domenica mattina con le mie amiche!!!!!",
+        "likes": [54000, 59000, 119000, 159000]
+      },
+      {
+        "avatar": "avatars/others/11.png",
+        "username": "Pedro",
+        "text": "Ciao a tutti dalla Spagnaaa!!! Mi chiamo Pedro e sono un ingegnere informatico. Fortunatamente il mio capo mi permette di lavorare in smart-working e questo mi consente di girare il mondo. La settimana scorsa ho lavorato dal Giappone!! Unico problema il fuso orarioo :/. Sono appassionato di musica, di ogni genere e tipo quindi fatevi sotto con i consigli!!",
+        "likes": [55000, 60000, 120000, 160000]
+      }
     ]
   };
