@@ -3,7 +3,7 @@
 Paradigma di Ostracismo sui Social Media - Versione italiana v3 con addendum per tracking dei like dati per esperimenti di ricerca psicologica.
 
 ## 🌐 Demo Online
-**Sito Live:** [https://VILLINODIPPSI.github.io/smpo-socialmedia-ita_v3_ADDENDUM_LIKE/](https://VILLINODIPPSI.github.io/smpo-socialmedia-ita_v3_ADDENDUM_LIKE/)
+**Sito Live:** [https://villinodippsi.github.io/smpo_itav3_test/](https://villinodippsi.github.io/smpo_itav3_test/)
 
 ## 📋 Descrizione
 
