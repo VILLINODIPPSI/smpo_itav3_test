@@ -2,14 +2,20 @@
 // Questo file carica i profili da profiles.csv invece di averli hard-coded
 // Per modificare i profili, edita profiles.csv con Excel
 
-// IMPORTANTE: Usa XMLHttpRequest sincrono per caricare i dati PRIMA che main.js venga eseguito
+// CACHE BUSTING: Aggiunge timestamp per forzare il reload del CSV
 (function() {
     try {
         console.log('📥 Caricamento profiles.csv...');
         
-        // Usa XMLHttpRequest SINCRONO (deprecato ma necessario qui)
+        // Aggiungi timestamp per evitare cache
+        var timestamp = new Date().getTime();
+        var csvUrl = 'profiles.csv?v=' + timestamp;
+        
+        console.log('🔄 URL con cache busting:', csvUrl);
+        
+        // Usa XMLHttpRequest SINCRONO
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'profiles.csv', false);  // false = sincrono
+        xhr.open('GET', csvUrl, false);  // false = sincrono
         xhr.send();
         
         if (xhr.status !== 200) {
@@ -85,6 +91,7 @@
         
         console.log('✅ Profili caricati da CSV: ' + profiles.length + ' profili');
         console.log('📋 Profili:', profiles.map(function(p) { return p.username; }).join(', '));
+        console.log('🕐 Timestamp cache busting:', timestamp);
         
     } catch (error) {
         console.error('❌ Errore durante il caricamento del CSV:', error);
