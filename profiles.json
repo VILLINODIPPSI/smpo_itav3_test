@@ -2,32 +2,38 @@
 // Questo file carica i profili da profiles.csv invece di averli hard-coded
 // Per modificare i profili, edita profiles.csv con Excel
 
-(async function() {
+// IMPORTANTE: Usa XMLHttpRequest sincrono per caricare i dati PRIMA che main.js venga eseguito
+(function() {
     try {
-        // Carica il file CSV
-        const response = await fetch('profiles.csv');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        console.log('📥 Caricamento profiles.csv...');
+        
+        // Usa XMLHttpRequest SINCRONO (deprecato ma necessario qui)
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'profiles.csv', false);  // false = sincrono
+        xhr.send();
+        
+        if (xhr.status !== 200) {
+            throw new Error('HTTP error! status: ' + xhr.status);
         }
-        const csvText = await response.text();
+        
+        var csvText = xhr.responseText;
         
         // Parse CSV manualmente (gestisce virgolette e virgole nei testi)
         function parseCSV(text) {
-            const lines = text.trim().split('\n');
-            const headers = lines[0].split(',');
-            const profiles = [];
+            var lines = text.trim().split('\n');
+            var profiles = [];
             
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i];
+            for (var i = 1; i < lines.length; i++) {
+                var line = lines[i];
                 if (!line.trim()) continue;
                 
-                const values = [];
-                let currentValue = '';
-                let insideQuotes = false;
+                var values = [];
+                var currentValue = '';
+                var insideQuotes = false;
                 
                 // Parse carattere per carattere per gestire virgolette
-                for (let j = 0; j < line.length; j++) {
-                    const char = line[j];
+                for (var j = 0; j < line.length; j++) {
+                    var char = line[j];
                     
                     if (char === '"') {
                         insideQuotes = !insideQuotes;
@@ -38,18 +44,24 @@
                         currentValue += char;
                     }
                 }
-                // Aggiungi l'ultimo valore
                 values.push(currentValue.trim());
                 
                 // Crea l'oggetto profilo
                 if (values.length >= 4) {
-                    const avatar = values[0];
-                    const username = values[1];
-                    const text = values[2];
-                    const likesStr = values[3];
+                    var avatar = values[0];
+                    var username = values[1];
+                    var text = values[2];
+                    var likesStr = values[3];
                     
                     // Parse array likes
-                    const likes = likesStr.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+                    var likesArray = likesStr.split(',');
+                    var likes = [];
+                    for (var k = 0; k < likesArray.length; k++) {
+                        var num = parseInt(likesArray[k].trim());
+                        if (!isNaN(num)) {
+                            likes.push(num);
+                        }
+                    }
                     
                     profiles.push({
                         avatar: avatar,
@@ -64,24 +76,21 @@
         }
         
         // Parse il CSV
-        const profiles = parseCSV(csvText);
+        var profiles = parseCSV(csvText);
         
         // Popola window.others nel formato atteso
         window.others = {
             posts: profiles
         };
         
-        console.log(`✅ Profili caricati da CSV: ${profiles.length} profili`);
-        console.log('📋 Profili:', profiles.map(p => p.username).join(', '));
-        
-        // Trigger evento per notificare che i dati sono pronti
-        window.dispatchEvent(new Event('profilesLoaded'));
+        console.log('✅ Profili caricati da CSV: ' + profiles.length + ' profili');
+        console.log('📋 Profili:', profiles.map(function(p) { return p.username; }).join(', '));
         
     } catch (error) {
         console.error('❌ Errore durante il caricamento del CSV:', error);
         console.error('Assicurati che profiles.csv sia presente nella stessa directory');
         
-        // Fallback: crea un array vuoto per evitare errori
+        // Fallback: crea array vuoto
         window.others = {
             posts: []
         };
