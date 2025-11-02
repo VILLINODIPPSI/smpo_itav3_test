@@ -37,7 +37,6 @@ e lasci intatti tutti gli elementi funzionali.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.10/alertify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/2.1.08/jquery.masonry.min.js"></script>
 <script src="shortcut.js"></script>
-<script src="main.js"></script>
 <!-- Cache busting per profiles.json -->
 <script>
 (function() {
@@ -45,9 +44,10 @@ e lasci intatti tutti gli elementi funzionali.
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'profiles.json?v=' + timestamp;
-    document.currentScript.parentNode.insertBefore(script, document.currentScript.nextSibling);
+    document.head.appendChild(script);
 })();
 </script>
+<script src="main.js"></script>
 
 <!-- CSS per il loader -->
 <style>
