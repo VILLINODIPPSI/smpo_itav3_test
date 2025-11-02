@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -37,25 +38,22 @@ e lasci intatti tutti gli elementi funzionali.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.10/alertify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/2.1.08/jquery.masonry.min.js"></script>
 <script src="shortcut.js"></script>
-<!-- Cache busting per profiles.json -->
 <script>
+// CARICA PROFILES.JSON CON CACHE BUSTING E POI MAIN.JS
 (function() {
     var timestamp = new Date().getTime();
-    var profilesScript = document.createElement('script');
-    profilesScript.type = 'text/javascript';
-    profilesScript.src = 'profiles.json?v=' + timestamp;
-    
+    var profilesScript = document.createElement("script");
+    profilesScript.type = "text/javascript";
+    profilesScript.src = "profiles.json?v=" + timestamp;
     profilesScript.onload = function() {
-        console.log('✅ profiles.json caricato, ora carico main.js');
-        var mainScript = document.createElement('script');
-        mainScript.src = 'main.js';
+        console.log("✅ profiles.json caricato, ora carico main.js");
+        var mainScript = document.createElement("script");
+        mainScript.src = "main.js";
         document.head.appendChild(mainScript);
     };
-    
     profilesScript.onerror = function() {
-        console.error('❌ Errore caricamento profiles.json');
+        console.error("❌ Errore caricamento profiles.json");
     };
-    
     document.head.appendChild(profilesScript);
 })();
 </script>
@@ -270,4 +268,5 @@ Puoi modificare il testo delle istruzioni.
 </script>
 
 </body>
+</html>
 </html>
