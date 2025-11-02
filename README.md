@@ -21,7 +21,7 @@ La versione 3.1 introduce un **sistema rivoluzionario di gestione profili** che 
 Sistema ottimizzato che garantisce il caricamento immediato delle modifiche ai profili:
 - ✅ **Nessuna cache del browser**: Ogni ricarica mostra sempre i dati più recenti
 - ✅ **Aggiornamenti istantanei**: Modifiche visibili con un semplice F5
-- ✅ **Sincronizzazione perfetta**: Script caricati nell'ordine corretto
+
 
 ---
 
@@ -30,6 +30,7 @@ Sistema ottimizzato che garantisce il caricamento immediato delle modifiche ai p
 Questa versione v3.1 del Social Media Ostracism Paradigm (SMPO) italiano mantiene tutte le funzionalità della v3.0 Addendum (tracking like dati) e aggiunge:
 
 - **Gestione profili tramite CSV**: File Excel per configurare tutti gli 11 profili virtuali
+- 
 - **Cache busting intelligente**: Sistema che evita problemi di cache del browser
 - **Caricamento dinamico ottimizzato**: Script caricati nell'ordine corretto per massima affidabilità
 
