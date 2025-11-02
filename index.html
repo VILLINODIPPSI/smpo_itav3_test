@@ -38,7 +38,16 @@ e lasci intatti tutti gli elementi funzionali.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/2.1.08/jquery.masonry.min.js"></script>
 <script src="shortcut.js"></script>
 <script src="main.js"></script>
-<script type="text/javascript" src="profiles.json"></script>
+<!-- Cache busting per profiles.json -->
+<script>
+(function() {
+    var timestamp = new Date().getTime();
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'profiles.json?v=' + timestamp;
+    document.currentScript.parentNode.insertBefore(script, document.currentScript.nextSibling);
+})();
+</script>
 
 <!-- CSS per il loader -->
 <style>
