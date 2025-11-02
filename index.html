@@ -41,13 +41,24 @@ e lasci intatti tutti gli elementi funzionali.
 <script>
 (function() {
     var timestamp = new Date().getTime();
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'profiles.json?v=' + timestamp;
-    document.head.appendChild(script);
+    var profilesScript = document.createElement('script');
+    profilesScript.type = 'text/javascript';
+    profilesScript.src = 'profiles.json?v=' + timestamp;
+    
+    profilesScript.onload = function() {
+        console.log('✅ profiles.json caricato, ora carico main.js');
+        var mainScript = document.createElement('script');
+        mainScript.src = 'main.js';
+        document.head.appendChild(mainScript);
+    };
+    
+    profilesScript.onerror = function() {
+        console.error('❌ Errore caricamento profiles.json');
+    };
+    
+    document.head.appendChild(profilesScript);
 })();
 </script>
-<script src="main.js"></script>
 
 <!-- CSS per il loader -->
 <style>
