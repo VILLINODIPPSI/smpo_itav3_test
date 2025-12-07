@@ -101,8 +101,12 @@ $(function() {
 	settings.condition_3_adjusted_likes = [12000, 9999999]; //1	
 	
     // Usernames by which the participant will receive "likes"
-	// If group member names are changed, these should be changed accordingly.
-    settings.likes_by = ['John','AncaD','Sarah','Arjen','Jane','George','Dan','Heather','Ky']; 
+	// ✅ AGGIORNATO v3.1: Estrae automaticamente i nomi dal CSV
+	// Non serve più aggiornare manualmente - i nomi vengono sincronizzati automaticamente con profiles.csv
+    settings.likes_by = window.others.posts.map(function(profile) {
+        return profile.username;
+    });
+    console.log('📋 Nomi estratti automaticamente dal CSV per likes_by:', settings.likes_by); 
   }
   
   // -------------------
